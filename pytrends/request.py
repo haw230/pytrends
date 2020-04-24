@@ -68,24 +68,7 @@ class TrendReq(object):
         Gets google cookie (used for each and every proxy; once on init otherwise)
         Removes proxy from the list on proxy error
         """
-        while True:
-            if len(self.proxies) > 0:
-                proxy = {'https': self.proxies[self.proxy_index]}
-            else:
-                proxy = ''
-            try:
-                return dict(filter(lambda i: i[0] == 'NID', requests.get(
-                    'http://trends.google.com/?geo={geo}'.format(
-                        geo=self.hl[-2:]),
-                    verify=False
-                ).cookies.items()))
-            except:
-                print('error error. Changing IP')
-                if len(self.proxies) > 0:
-                    self.proxies.remove(self.proxies[self.proxy_index])
-                else:
-                    print('Proxy list is empty. Bye!')
-                continue
+        return {}
 
     def GetNewProxy(self):
         """
