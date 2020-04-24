@@ -77,9 +77,10 @@ class TrendReq(object):
                 return dict(filter(lambda i: i[0] == 'NID', requests.get(
                     'https://trends.google.com/?geo={geo}'.format(
                         geo=self.hl[-2:]),
+                    verify=False
                     timeout=self.timeout,
                     proxies=proxy,
-                ).cookies.items(), verify=False))
+                ).cookies.items()))
             except requests.exceptions.ProxyError:
                 print('Proxy error. Changing IP')
                 if len(self.proxies) > 0:
