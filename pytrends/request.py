@@ -78,11 +78,9 @@ class TrendReq(object):
                     'http://trends.google.com/?geo={geo}'.format(
                         geo=self.hl[-2:]),
                     verify=False
-                    timeout=self.timeout,
-                    proxies=proxy,
                 ).cookies.items()))
-            except requests.exceptions.ProxyError:
-                print('Proxy error. Changing IP')
+            except:
+                print('error error. Changing IP')
                 if len(self.proxies) > 0:
                     self.proxies.remove(self.proxies[self.proxy_index])
                 else:
