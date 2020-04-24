@@ -55,7 +55,7 @@ class TrendReq(object):
         self.retries = retries
         self.backoff_factor = backoff_factor
         self.proxy_index = 0
-        self.cookies = {}
+        self.cookies = self.GetGoogleCookie()
         # intialize widget payloads
         self.token_payload = dict()
         self.interest_over_time_widget = dict()
@@ -68,7 +68,26 @@ class TrendReq(object):
         Gets google cookie (used for each and every proxy; once on init otherwise)
         Removes proxy from the list on proxy error
         """
-        return {}
+        while True:
+            if len(self.proxies) > 0:
+                proxy = {'https': self.proxies[self.proxy_index]}
+            else:
+                proxy = ''
+            try:
+                return dict(filter(lambda i: i[0] == 'NID', requests.get(
+                    'https://trends.google.com/?geo={geo}'.format(
+                        geo=self.hl[-2:]),
+                    timeout=self.timeout,
+                    proxies=proxy,
+                    verify=False
+                ).cookies.items()))
+            except requests.exceptions.ProxyError:
+                print('Proxy error. Changing IP')
+                if len(self.proxies) > 0:
+                    self.proxies.remove(self.proxies[self.proxy_index])
+                else:
+                    print('Proxy list is empty. Bye!')
+                continue
 
     def GetNewProxy(self):
         """
@@ -281,7 +300,6 @@ class TrendReq(object):
 
     def related_topics(self):
         """Request data from Google's Related Topics section and return a dictionary of dataframes
-
         If no top and/or rising related topics are found, the value for the key "top" and/or "rising" will be None
         """
 
@@ -330,7 +348,6 @@ class TrendReq(object):
 
     def related_queries(self):
         """Request data from Google's Related Queries section and return a dictionary of dataframes
-
         If no top and/or rising related queries are found, the value for the key "top" and/or "rising" will be None
         """
 
