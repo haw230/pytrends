@@ -55,7 +55,7 @@ class TrendReq(object):
         self.retries = retries
         self.backoff_factor = backoff_factor
         self.proxy_index = 0
-        self.cookies = self.GetGoogleCookie()
+        self.cookies = {}
         # intialize widget payloads
         self.token_payload = dict()
         self.interest_over_time_widget = dict()
