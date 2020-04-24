@@ -107,6 +107,7 @@ class TrendReq(object):
         :return:
         """
         s = requests.session()
+        s.verify = False
         # Retries mechanism. Activated when one of statements >0 (best used for proxy)
         if self.retries > 0 or self.backoff_factor > 0:
             retry = Retry(total=self.retries, read=self.retries,
