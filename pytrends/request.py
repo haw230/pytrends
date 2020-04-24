@@ -75,7 +75,7 @@ class TrendReq(object):
                 proxy = ''
             try:
                 return dict(filter(lambda i: i[0] == 'NID', requests.get(
-                    'https://trends.google.com/?geo={geo}'.format(
+                    'http://trends.google.com/?geo={geo}'.format(
                         geo=self.hl[-2:]),
                     verify=False
                     timeout=self.timeout,
